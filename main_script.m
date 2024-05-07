@@ -6,7 +6,7 @@ clear all; clc; close all;
 %% training
 
 % 
-weights = [0.15; 0.4; 0.01; 0.001; 0.001; 0.001];
+weights = [0.15; 0.4; 0.001; 0.001; 0.001; 0.001];
 numIterations = 5;
 training = 0;
 
@@ -39,7 +39,8 @@ end
 %% actual run
 
 % run this if you want to skip training
-weights = [0.15; 0.4; 0.015; 0.001; 0.001; 0.001];
+% weights = [0.15; 0.4; 0.001; 0.001; 0.001; 0.001];
+weights = [0.1469; 0.3968; 0.0008; 0.0018; 0.0007; -0.0002];
 model = 'classprojectfinal'; 
 
 %

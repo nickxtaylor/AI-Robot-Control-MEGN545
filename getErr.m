@@ -1,77 +1,41 @@
 function [err] = getErr(act, des, time)
 
-%%  build final error plot
-
-% 
+% build final error plot
 activation_error = [3 .* (act(:, 1) - des(:, 1)), ...
                     -6 .* (act(:, 2) - des(:, 2)), ... 
                     -1000 .* (act(:, 3) - des(:, 3)), ...
                     -3 .* act(:, 4), ... 
                     -3 .* act(:, 5), ...
                     -3 .* act(:, 6)];
-
-%
 figure(2)
 hold on
 grid on
 
-plot(time, activation_error(:, 1:3), 'LineWidth', 1.5)
-title('Position Error from Activation Function over time')
+plot(time, activation_error, 'LineWidth', 1.5)
+title('Error from Activation Function over time')
 xlabel('time')
 ylabel('Activation Function Error')
-legend('X', 'Y', 'Z')
+legend('X', 'Y', 'Z', '\phi', '\theta', '\psi')
 
 hold off
 
-%
+% build final reward plot
+R_pos = [30 .* (act(:, 1) - des(:, 1)).^2, 30 .* (act(:, 2) - des(:, 2)).^2, -1000 .* (act(:, 3) - des(:, 3)).^2];
+R_ang = 30 .* [(act(:, 4)).^2, (act(:, 5)).^2, (act(:, 6)).^2];
+R = [-R_pos, -R_ang];
 figure(3)
 hold on
 grid on
 
-plot(time, activation_error(:, 4:6), 'LineWidth', 1.5)
-title('Angular Error from Activation Function over time')
-xlabel('time')
-ylabel('Activation Function Error')
-legend('\phi', '\theta', '\psi')
-
-hold off
-
-%% build final reward plot
-
-%
-R_pos = [30 .* (act(:, 1) - des(:, 1)).^2, 30 .* (act(:, 2) - des(:, 2)).^2, -1000 .* (act(:, 3) - des(:, 3)).^2];
-R_ang = [30 .* (act(:, 4)).^2, 30 .* (act(:, 5)).^2, 30 .* (act(:, 6)).^2];
-R = [-R_pos, -R_ang];
-
-%
-figure(4)
-hold on
-grid on
-
-plot(time, R(:, 1:3), 'LineWidth', 1.5)
-title('Position Reward function vs. time')
+plot(time, R, 'LineWidth', 1.5)
+title('Reward function vs. time')
 xlabel('time')
 ylabel('Reward')
-legend('X', 'Y', 'Z')
+legend('X', 'Y', 'Z', '\phi', '\theta', '\psi')
 
 hold off
 
-%
-figure(5)
-hold on
-grid on
-
-plot(time, R(:, 4:6), 'LineWidth', 1.5)
-title('Angular Reward function vs. time')
-xlabel('time')
-ylabel('Reward')
-legend('\phi', '\theta', '\psi')
-
-hold off
-
-%% quantify RMSE
-
-%
+% quantify RMSE
 err = zeros(6, 1);
 for i = 1:3
 
@@ -84,7 +48,6 @@ for i = 1:3
 
 end
 
-%
 for i = 4:6
 
     diff = act(:, i) - zeros(size(act(:, i)));
@@ -139,6 +102,7 @@ ylabel('Z Position')
 legend('actual performance', 'desired trajectory')
 
 hold off
+
 
 end
 
